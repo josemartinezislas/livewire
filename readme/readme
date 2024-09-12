@@ -1,0 +1,46 @@
+# ===================================
+
+# Curso Livewire 3 desde Cero
+
+# ===================================
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+
+# Proyecto desarrollado livewire.
+# implementación de jestream.
+# Se tiene que crear virtualhost para su optimo funcionamiento de vite.
+# se utilizan componentes jestream.
+# -> npm run dev para que utilize los estilos.
+# Falta validar campos.
+# Falta implementar objetsForms.
+# Registros actualizados mediante modal.
+# <form wire:submit='save'>
+# metodos magicos | .$toggle | .$set | .$parent
+# -> Submit enviado mediante formulario.
+
+# Se utiliza todo en una sola vista, mediante funciones.
+
+# https://www.youtube.com/watch?v=8k8sFQkRvm4&list=PLZ2ovOgdI-kXSx9_m0rGDlyPAeGzMrt5R&index=23
+# crud con db -> livewire
+# tables -> categories | tags | posts
+# table intermedia -> post_tag
+
+# =====================================
+
+# Se sugiere documentación de migraciones de laravel.
+
+# Implementar tailwind para personalizar estilos (opcioal).
+
+# =====================================
