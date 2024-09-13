@@ -6,19 +6,24 @@
                 <x-label>
                     Name
                 </x-label>
-                <x-input wire:model='title' required class="w-full"></x-input>
+                <x-input wire:model='postCreate.title' class="w-full"></x-input>
+                <x-input-error for='postCreate.title' />
+
             </div>
             <div class="mb-4">
                 <x-label>
                     Content
                 </x-label>
-                <x-textarea wire:model='content' required class="w-full"></x-textarea>
+                <x-textarea wire:model='postCreate.content' class="w-full"></x-textarea>
+                <x-input-error for='postCreate.content' />
             </div>
             <div class="mb-4">
                 <x-label>
                     Category
                 </x-label>
-                <x-select wire:model='category_id' class="w-full">
+                <x-select wire:model='postCreate.category_id' class="w-full">
+
+
                     <option value="">Select category</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}">
@@ -26,20 +31,24 @@
                         </option>
                     @endforeach
                 </x-select>
+                <x-input-error for='postCreate.category_id' />
             </div>
             <div class="mb-4">
                 <x-label>
                     Labels
                 </x-label>
+                <ul>
+                    @foreach ($tags as $tag)
+                        <li class="list-none">
+                            <label>
+                                <x-checkbox wire:model='postCreate.tags' value="{{ $tag->id }}" />
 
-                @foreach ($tags as $tag)
-                    <li class="list-none">
-                        <label>
-                            <x-checkbox wire:model='selectedTags' value="{{ $tag->id }}" />
-                            {{ $tag->name }}
-                        </label>
-                    </li>
-                @endforeach
+                                {{ $tag->name }}
+                            </label>
+                        </li>
+                    @endforeach
+                </ul>
+                <x-input-error for='postCreate.tags' />
             </div>
             <div class="flex justify-end">
                 <x-button>create</x-button>
@@ -125,7 +134,7 @@
     <form wire:submit='update'>
         <x-dialog-modal wire:model='open'>
             <x-slot name='title'>
-                Update Post
+                Post update
             </x-slot>
             <x-slot name='content'>
 
@@ -133,13 +142,17 @@
                     <x-label>
                         Name
                     </x-label>
-                    <x-input wire:model='postEdit.title' required class="w-full"></x-input>
+                    <x-input wire:model='postEdit.title' class="w-full"></x-input>
+                    <x-input-error for='postEdit.title' />
+
                 </div>
                 <div class="mb-4">
                     <x-label>
                         Content
                     </x-label>
-                    <x-textarea wire:model='postEdit.content' required class="w-full"></x-textarea>
+                    <x-textarea wire:model='postEdit.content' class="w-full"></x-textarea>
+                    <x-input-error for='postEdit.content' />
+
                 </div>
                 <div class="mb-4">
                     <x-label>
@@ -153,20 +166,24 @@
                             </option>
                         @endforeach
                     </x-select>
+                    <x-input-error for='postEdit.category_id' />
+
                 </div>
                 <div class="mb-4">
                     <x-label>
                         Labels
                     </x-label>
-
-                    @foreach ($tags as $tag)
-                        <li class="list-none">
-                            <label>
-                                <x-checkbox wire:model='postEdit.tags' value="{{ $tag->id }}" />
-                                {{ $tag->name }}
-                            </label>
-                        </li>
-                    @endforeach
+                    <ul>
+                        @foreach ($tags as $tag)
+                            <li class="list-none">
+                                <label>
+                                    <x-checkbox wire:model='postEdit.tags' value="{{ $tag->id }}" />
+                                    {{ $tag->name }}
+                                </label>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <x-input-error for='postEdit.tags' />
                 </div>
             </x-slot>
             <x-slot name='footer'>

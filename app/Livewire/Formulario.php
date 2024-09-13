@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 
 class Formulario extends Component
@@ -12,12 +13,42 @@ class Formulario extends Component
     public $categories, $tags;
 
     public $post;
-    public $category_id="", $title, $content;
-    public $selectedTags =[];
+
+
+    // #[Rule('required')]
+    // public $title;
+
+    // #[Rule('required')]
+    // public $content;
+
+    // #[Rule('required|exists:categories,id', as: 'CATEGORIA' )]
+    // public $category_id="";
+
+    // #[Rule('required|array')]
+    // public $selectedTags =[];
+
+    // #[Rule(
+    //     [
+    //         'postCreate.title' => 'required',
+    //         'postCreate.content' => 'required',
+    //         'postCreate.category_id' => 'required|exists:categories',
+    //         'postCreate.tags' => 'required|array'
+    //     ],
+    //     [],
+    //     [
+    //         'postCreate.category_id' => 'CATEGOrE'
+    //     ]
+    // )]
+    public $postCreate = [
+        'title' => '',
+        'content' => '',
+        'category_id' => '',
+        'tags' => []
+    ];
 
     public $posts;
 
-    public $postEditId ='';
+    public $postEditId = '';
 
     public $postEdit = [
         'category_id' => '',
@@ -26,6 +57,29 @@ class Formulario extends Component
         'tags' => []
     ];
     public $open = false;
+
+    public function rules()
+    {
+        return [
+            'postCreate.title' => 'required',
+            'postCreate.content' => 'required',
+            'postCreate.category_id' => 'required|exists:categories',
+            'postCreate.tags' => 'required|array'
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'postCreate.title' => 'CAMPO TITULO SE REQUIERE',
+        ];
+    }
+    public function validationAttributes()
+    {
+        return [
+            'postCreate.category_id' => 'CATEGORIAS',
+            'postCreate.content' => 'contenido',
+        ];
+    }
 
     public function mount()
     {
@@ -36,24 +90,44 @@ class Formulario extends Component
 
     public function save()
     {
+        $this->validate();
+        
+        //===| Validación |===
+        // $this->validate([
+        //     'title'=> 'required',
+        //     'content' => 'required',
+        //     'category_id' => 'required|exists:categories,id',
+        //     'selectedTags' => 'required|array'
+        // ],[
+        //     'title.required' => 'el campo título es requeridooo'
+        // ],[
+        //     'category_id' => 'categoria'
+        // ]);
+
+        //===| Crear registro forma 1 |===
         // $post = Post::create([
         //     'category_id' => $this->category_id,
         //     'title' => $this->title,
         //     'content' => $this->content,
         // ]);
 
-        $post = Post::create($this->only('category_id', 'title', 'content' )
-    );
-
-        $post->tags()->attach($this->selectedTags);
-        $this->reset([
-            'category_id',
-            'title',
-            'content',
-            'selectedTags'
+        //===| Crear registro forma 2 simplificada |===
+        // $post = Post::create($this->only('category_id', 'title', 'content'));
+        // $post->tags()->attach($this->selectedTags);
+        //===| Crear registro forma 3 con postCreate. |===
+        $post = Post::create([
+            'category_id' => $this->postCreate['category_id'],
+            'title' => $this->postCreate['title'],
+            'content' => $this->postCreate['content'],
         ]);
+        $post->tags()->attach($this->postCreate['tags']);
+
+
+        $this->reset(['postCreate']);
 
         $this->posts = Post::all();
+
+       
         // dd([
         //     'category_id' => $this->category_id,
         //     'title' => $this->title,
@@ -62,10 +136,12 @@ class Formulario extends Component
         // ]);
     }
 
-    public function edit($postId){
+    public function edit($postId)
+    {
+        $this->resetValidation();
         $this->open = true;
 
-        $this->postEditId = $postId; 
+        $this->postEditId = $postId;
 
         $post = Post::find($postId);
 
@@ -74,11 +150,19 @@ class Formulario extends Component
         $this->postEdit['content'] = $post->content;
 
         $this->postEdit['tags'] = $post->tags->pluck('id')->toArray();
-
     }
 
-    public function update(){
-
+    public function update()
+    {
+        //===| Validación |===
+        $this->validate([
+            'postEdit.title' => 'required',
+            'postEdit.content' => 'required',
+            'postEdit.category_id' => 'required|exists:categories,id',
+            'postEdit.selectedTags' => 'required|array'
+        ], [], [
+            'postEdit.content' => 'contenido',
+        ]);
         $post = Post::find($this->postEditId);
 
         // dd($this->postEditId);
@@ -91,17 +175,17 @@ class Formulario extends Component
 
         $post->tags()->sync($this->postEdit['tags']);
 
-       
+
         $this->reset([
             'postEditId',
             'postEdit',
-            'open'           
+            'open'
         ]);
         $this->posts = Post::all();
-
     }
 
-    public function destroy($postId){
+    public function destroy($postId)
+    {
         $post = Post::find($postId);
 
         $post->delete();
