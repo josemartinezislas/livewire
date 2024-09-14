@@ -17,7 +17,7 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
-
+# 12 septiembre 
 # Proyecto desarrollado livewire.
 # implementación de jestream.
 # Se tiene que crear virtualhost para su optimo funcionamiento de vite.
@@ -36,6 +36,11 @@ Route::middleware([
 # crud con db -> livewire
 # tables -> categories | tags | posts
 # table intermedia -> post_tag
+# ==========================
+
+# 13 septiembre =======================
+# 11 - Validaciones - Curso Livewire 3 desde Cero
+# Falta estar estable las validaciones.
 
 # =====================================
 

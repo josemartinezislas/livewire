@@ -6,7 +6,7 @@
                 <x-label>
                     Name
                 </x-label>
-                <x-input wire:model='postCreate.title' class="w-full"></x-input>
+                <x-input wire:model.live='postCreate.title' class="w-full"></x-input>
                 <x-input-error for='postCreate.title' />
 
             </div>
@@ -21,9 +21,9 @@
                 <x-label>
                     Category
                 </x-label>
+
+
                 <x-select wire:model='postCreate.category_id' class="w-full">
-
-
                     <option value="">Select category</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}">
@@ -32,6 +32,9 @@
                     @endforeach
                 </x-select>
                 <x-input-error for='postCreate.category_id' />
+
+
+
             </div>
             <div class="mb-4">
                 <x-label>
@@ -132,7 +135,7 @@
         </div>
     @endif --}}
     <form wire:submit='update'>
-        <x-dialog-modal wire:model='open'>
+        <x-dialog-modal wire:model='postEdit.open'>
             <x-slot name='title'>
                 Post update
             </x-slot>
@@ -188,7 +191,7 @@
             </x-slot>
             <x-slot name='footer'>
                 <div class="flex justify-end">
-                    <x-danger-button wire:click="$set('open', false)" class="mr-2">close</x-danger-button>
+                    <x-danger-button wire:click="$set('postEdit.open', false)" class="mr-2">close</x-danger-button>
                     <x-button>update</x-button>
                 </div>
             </x-slot>
