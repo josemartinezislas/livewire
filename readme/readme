@@ -40,8 +40,8 @@ Route::middleware([
 
 # 13 septiembre =======================
 # 11 - Validaciones - Curso Livewire 3 desde Cero
-# Falta estar estable las validaciones.
-
+# 12 - FormObjects : refactorizar codigo
+# 13 - Validaciones en tiempo real
 # =====================================
 
 # Se sugiere documentación de migraciones de laravel.
