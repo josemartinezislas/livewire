@@ -1,5 +1,5 @@
 <div>
-    <div class=" text-slate-700  rounded-lg border-2 p-8 bg-slate-50 shadow-sm flex flex-col">
+    <div  class=" text-slate-700  rounded-lg border-2 p-8 bg-slate-50 shadow-sm flex flex-col">
         <h4 class="text-lg py-4">View formulario</h4>
         <form wire:submit='save'>
             <div class="mb-4">
@@ -60,6 +60,9 @@
     </div>
 
     <div class=" text-slate-700  rounded-lg border-2 p-8 my-2 bg-slate-50 shadow-sm flex flex-col">
+        <div class="mb-4">
+            <x-input wire:model.live='search' placeholder='Search ...' class="w-full"></x-input>
+        </div>
         @foreach ($posts as $post)
             <ul class=" ">
                 <li class=" flex flex-row justify-between py-1" wire:key='post-{{ $post->id }}'>
@@ -72,9 +75,10 @@
                 </li>
             </ul>
         @endforeach
+        <div class="mt-4">
+            {{ $posts->links() }}
+        </div>
     </div>
-
-
 
     {{-- MODAL formulario edicion --}}
     {{-- @if ($open)
@@ -198,5 +202,34 @@
         </x-dialog-modal>
 
     </form>
+ 
+    @push('js')
+        <script>
+            Livewire.on('post-created', function(comment) {
+                alert(comment);
+                // console.log(comment[0]);
+            });
+
+            //https://sweetalert2.github.io/#examples
+            // Swal.fire({
+            //     title: "Are you sure?",
+            //     text: "You won't be able to revert this!",
+            //     icon: "warning",
+            //     showCancelButton: true,
+            //     confirmButtonColor: "#3085d6",
+            //     cancelButtonColor: "#d33",
+            //     confirmButtonText: "Yes, delete it!"
+            // }).then((result) => {
+            //     if (result.isConfirmed) {
+            //         Swal.fire({
+            //             title: "Deleted!",
+            //             text: "Your file has been deleted.",
+            //             icon: "success"
+            //         });
+            //     }
+            // });
+        </script>
+    @endpush
+
 
 </div>

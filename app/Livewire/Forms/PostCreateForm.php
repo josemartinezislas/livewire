@@ -1,5 +1,5 @@
 <?php
-
+//=======| REFACTORIZACION |========
 namespace App\Livewire\Forms;
 
 use Livewire\Attributes\Rule;
@@ -7,6 +7,8 @@ use Livewire\Attributes\Validate;
 use Livewire\Form;
 use App\Models\Post;
 class PostCreateForm extends Form
+//=======|  PostCreateForm   |========
+//=======| FORMULARIO CREATE |=======
 {
     #[Rule('required|min:3')]
     public $title;

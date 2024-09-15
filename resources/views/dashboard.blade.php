@@ -6,19 +6,19 @@
 
     </x-slot>
     <style>
-        .itr{
+        .itr {
             border: 1px dashed red;
         }
-        .itg{
+
+        .itg {
             border: 1px dashed green;
         }
     </style>
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-                @livewire('formulario')
-            
+            @livewire('comments')
+            @livewire('formulario')
 
             {{-- <div class=" text-slate-700  rounded-lg border-2 p-8 bg-slate-50 shadow-sm flex flex-col">
                 @livewire('paises')
@@ -37,7 +37,6 @@
             <div class=" text-slate-700  rounded-lg border-2 p-8 bg-slate-50 shadow-sm flex flex-col">
                 @livewire('contador')
             </div> --}}
-           
 
             {{-- @livewire('crea-tarjeta') --}}
 

@@ -42,10 +42,17 @@ Route::middleware([
 # 11 - Validaciones - Curso Livewire 3 desde Cero
 # 12 - FormObjects : refactorizar codigo
 # 13 - Validaciones en tiempo real
+# 14 septiembre =======================
+# 14 - Eventos (comments)
+# 22 - Paginación 
+# 23 - Parametros de consulta (search...)
 # =====================================
 
 # Se sugiere documentación de migraciones de laravel.
 
 # Implementar tailwind para personalizar estilos (opcioal).
+
+# 13 septiembre 
+# Aqui el llenado de la consulta se hace a travez del render(), ya no por la funciones.
 
 # =====================================
