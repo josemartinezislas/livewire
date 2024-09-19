@@ -1,5 +1,5 @@
 <div>
-    <div  class=" text-slate-700  rounded-lg border-2 p-8 bg-slate-50 shadow-sm flex flex-col">
+    <div class=" text-slate-700  rounded-lg border-2 p-8 bg-slate-50 shadow-sm flex flex-col">
         <h4 class="text-lg py-4">View formulario</h4>
         <form wire:submit='save'>
             <div class="mb-4">
@@ -24,7 +24,7 @@
 
 
                 <x-select wire:model='postCreate.category_id' class="w-full">
-                    <option value="">Select category</option>
+                    <option value=""">- select category -</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}">
                             {{ $category->name }}
@@ -66,10 +66,20 @@
         @foreach ($posts as $post)
             <ul class=" ">
                 <li class=" flex flex-row justify-between py-1" wire:key='post-{{ $post->id }}'>
-                    {{ $post->title }}
+                    {{ $post->id }} {{ $post->title }}
                     <div>
                         <x-button wire:click='edit({{ $post->id }})'>Edit</x-button>
-                        <x-danger-button wire:click='destroy({{ $post->id }})'>Delete</x-danger-button>
+
+
+                        {{-- <x-danger-button 
+                        wire:click="$dispatch('deletePost', 
+                        { postId:{{ $post->id }}, postTitle:'{{ $post->title }}' })">
+                        Delete</x-danger-button> --}}
+
+                        <x-danger-button wire:click="$dispatch('deletePost', { postId: {{ $post->id }} })">
+                            Delete</x-danger-button>
+
+
                     </div>
 
                 </li>
@@ -138,6 +148,7 @@
             </div>
         </div>
     @endif --}}
+
     <form wire:submit='update'>
         <x-dialog-modal wire:model='postEdit.open'>
             <x-slot name='title'>
@@ -200,36 +211,98 @@
                 </div>
             </x-slot>
         </x-dialog-modal>
-
     </form>
- 
-    @push('js')
-        <script>
-            Livewire.on('post-created', function(comment) {
-                alert(comment);
-                // console.log(comment[0]);
-            });
 
-            //https://sweetalert2.github.io/#examples
-            // Swal.fire({
-            //     title: "Are you sure?",
-            //     text: "You won't be able to revert this!",
-            //     icon: "warning",
-            //     showCancelButton: true,
-            //     confirmButtonColor: "#3085d6",
-            //     cancelButtonColor: "#d33",
-            //     confirmButtonText: "Yes, delete it!"
-            // }).then((result) => {
-            //     if (result.isConfirmed) {
-            //         Swal.fire({
-            //             title: "Deleted!",
-            //             text: "Your file has been deleted.",
-            //             icon: "success"
-            //         });
-            //     }
-            // });
-        </script>
+
+    @push('js')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script></script>
     @endpush
 
+    @script
+        <script>
+            //https://sweetalert2.github.io/#examples
+            Livewire.on('post-created', function(comment) {
+                //alert(comment);
+                console.log(comment[0]);
+            });
 
+            Livewire.on('deletePost', postId => {
+                postId = Object.values(postId);
+                postId = postId[0];
+                console.log(postId);
+                Swal.fire({
+                    title: '¿Seguro de eliminar el registro ' + postId + ' ?',
+                    text: '¡No podrás revertir esto!',
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, eliminar!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let timerInterval;
+                        Swal.fire({
+                            title: "Alerta!",
+                            html: "Eliminando registro",
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading();
+                                const timer = Swal.getPopup().querySelector("b");
+                                timerInterval = setInterval(() => {
+                                    timer.textContent = `${Swal.getTimerLeft()}`;
+                                }, 100);
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval);
+                            }
+                        }).then((result) => {
+                            /* Read more about handling dismissals below */
+                            if (result.dismiss === Swal.DismissReason.timer) {
+                                console.log("I was closed by the timer");
+                                $wire.dispatch('delete', {postId: postId });
+                            }
+                        });
+                    }
+                });
+            });
+
+            Livewire.on('alertUpdate', function(message) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: message
+                });
+            });
+
+            Livewire.on('alertSave', function(message) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: message
+                });
+            });
+        </script>
+    @endscript
 </div>

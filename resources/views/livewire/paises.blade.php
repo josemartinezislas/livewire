@@ -7,7 +7,7 @@
 
 
     <form wire:submit='save'>
-        <x-input wire:model='pais' wire:keydown.space='increment' placeholder='Ingrese país' />
+        <x-input wire:model.live='pais' wire:keydown.space='increment' placeholder='Ingrese país' />
         <x-button>Agergar</x-button>
         @if($open)
         <ul class="list-disc list-inside mt-4">

@@ -46,6 +46,12 @@ Route::middleware([
 # 14 - Eventos (comments)
 # 22 - Paginación 
 # 23 - Parametros de consulta (search...)
+
+# 19 septiembre-----------------------
+# Integracion de https://sweetalert2.github.io/#examples
+# Envio de variables metodo dispatch #[On('alert')]
+# Comunicación con consola javaScript
+# Queda en desuso componente comments
 # =====================================
 
 # Se sugiere documentación de migraciones de laravel.
