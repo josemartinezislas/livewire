@@ -17,8 +17,9 @@
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @livewire('comments')
-            @livewire('formulario')
+            @livewire('table')
+            {{-- @livewire('comments')
+            @livewire('formulario') --}}
 
             {{-- <div class=" text-slate-700  rounded-lg border-2 p-8 bg-slate-50 shadow-sm flex flex-col">
                 @livewire('paises')

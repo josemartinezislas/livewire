@@ -4,8 +4,8 @@ namespace App\Livewire;
 
 use App\Livewire\Forms\PostCreateForm;
 use App\Livewire\Forms\PostEditForm;
-use App\Models\Category;
 use App\Models\Post;
+use App\Models\Category;
 use App\Models\Tag;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
@@ -68,13 +68,18 @@ class Formulario extends Component
     //=======| FUNCTION R E N D E R - T A B L E |=======
     public function render()
     {
+        
+       //$posts = Post::all();
+
         // $posts = Post::paginate(3);
         // $posts = Post::orderBy('id', 'desc')->paginate(3, pageName: 'pagePost');
+
         $posts = Post::orderBy('id', 'desc')
             ->when($this->search, function ($query) {
                 $query->where('title', 'like', '%' . $this->search . '%');
             })
             ->paginate(4, pageName: 'pagePost');
+           // dd(compact('posts'));
         return view('livewire.formulario', compact('posts'));
     }
 }

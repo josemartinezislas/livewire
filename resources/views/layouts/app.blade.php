@@ -10,13 +10,11 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    
-
     {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.0/dist/sweetalert2.all.min.js"></script> --}}
 
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.0/dist/sweetalert2.min.css" rel="stylesheet">
-    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        <script src="{{ asset('js/app.js') }}" defer></script> --}}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Styles -->
@@ -26,27 +24,41 @@
 <body class="font-sans antialiased">
     <x-banner />
 
-    <div class="min-h-screen bg-gray-100">
-        @livewire('navigation-menu')
+    <div class="min-h-screen bg-gray-100 flex flex-row">
 
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
+        @if (Auth::user()->id == 1)
+            <div class="bg-slate-200 w-40 ">
+
+            </div>
+        @else
         @endif
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
+
+
+        <div class="w-full">
+            @livewire('navigation-menu')
+
+            <!-- Page Heading -->
+            @if (isset($header))
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endif
+
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
+            </main>
+
+        </div>
+
     </div>
     @stack('modals')
     @livewireScripts
     @stack('js')
-   
+
 </body>
 
 </html>

@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-class Tag extends Model
+//=======| MODELO NUEVO |==========
+class PostTag extends Model
 {
     use HasFactory;
+    
+    protected $fillable=['post_id','tag_id' ];
 
-    protected $fillable=['name'];
-    //relacion muchos a muchos
     public function posts(){
-        return $this->belongsToMany(Post::class);
+        return $this->hasMany(Post::class);
     }
+    
 }
