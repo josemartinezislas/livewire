@@ -54,6 +54,18 @@ Route::middleware([
 # Queda en desuso componente comments
 # =====================================
 
+# 22 septiembre ----------------------
+# Componente Table.php (nuevo crud posts)
+# Tabla principal en render
+# Modal create
+# Modal edit
+# Validaciones en formEditFormulario y formCreateFormulario
+# Mensajes de  confimación
+# Al final se obtubo el Id del ususario para ocultar botones de edit y delete
+# Se avanzo en documentación de maquetr sitio con componentes.
+# comunicación metodo dispatch <--> emit. actializacion livewire.
+# Comunicación con JavaScript mediante dispatchTo
+
 # Se sugiere documentación de migraciones de laravel.
 
 # Implementar tailwind para personalizar estilos (opcioal).
